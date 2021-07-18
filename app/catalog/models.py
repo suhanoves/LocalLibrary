@@ -11,8 +11,8 @@ class Book(models.Model):
     title = models.CharField(max_length=250)
     author = models.ManyToManyField('Author')
     summary = models.TextField(
-        max_length=1000,
-        help_text="Введите краткое описание книги"
+        max_length=2500,
+        help_text="Введите описание книги"
     )
     imprint = models.ForeignKey('Imprint', on_delete=models.CASCADE)
     isbn = models.CharField(
