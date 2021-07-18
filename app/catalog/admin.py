@@ -11,8 +11,8 @@ class BookInstanceInline(admin.TabularInline):
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = ['title', 'imprint', 'isbn']
-    list_filter = ['genre', 'imprint']
-    filter_horizontal = ['author', 'genre']
+    list_filter = ['genres', 'imprint']
+    filter_horizontal = ['authors', 'genres']
     inlines = [BookInstanceInline]
 
 
@@ -49,7 +49,7 @@ class LanguageAdmin(admin.ModelAdmin):
 
 
 class BookInline(admin.TabularInline):
-    model = Book.author.through
+    model = Book.authors.through
     extra = 0
 
 

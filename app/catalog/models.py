@@ -9,7 +9,11 @@ class Book(models.Model):
     Класс представляющий информацию о книге (не о конкретном экземпляре)
     """
     title = models.CharField(max_length=250)
-    author = models.ManyToManyField('Author')
+    authors = models.ManyToManyField(
+        'Author',
+        related_name="books",
+        related_query_name="book",
+    )
     summary = models.TextField(
         max_length=2500,
         help_text="Введите описание книги"
@@ -20,9 +24,11 @@ class Book(models.Model):
         max_length=13,
         help_text='13 символов <a href="https://www.isbn-international.org/content/what-isbn">ISBN</a>'
     )
-    genre = models.ManyToManyField(
+    genres = models.ManyToManyField(
         'Genre',
-        help_text='Выберите жанры, подходящие для этой книги'
+        related_name="books",
+        related_query_name="book",
+        help_text='Выберите жанры, подходящие для этой книги',
     )
     language = models.ForeignKey('Language', on_delete=models.CASCADE)
 
@@ -30,7 +36,7 @@ class Book(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('catalog:book', kwargs={'id': self.id})
+        return reverse('catalog:book', kwargs={'pk': self.id})
 
     class Meta:
         verbose_name = 'Книга'
@@ -47,7 +53,12 @@ class BookInstance(models.Model):
         default=uuid.uuid4,
         help_text="Уникальный идентификатор для этой конкретной книги во всей библиотеке"
     )
-    book = models.ForeignKey('Book', on_delete=models.CASCADE)
+    book = models.ForeignKey(
+        'Book',
+        on_delete=models.CASCADE,
+        related_name="instances",
+        related_query_name="instance",
+    )
     due_back = models.DateField(null=True, blank=True)
 
     LOAN_STATUS = (
@@ -64,13 +75,11 @@ class BookInstance(models.Model):
         help_text='Доступность книги'
     )
 
-    class Meta:
-        ordering = ['due_back']
-
     def __str__(self):
         return f'{self.id} {self.book.title}'
 
     class Meta:
+        ordering = ['due_back']
         verbose_name = 'Экземпляр книги'
         verbose_name_plural = 'Экземпляры книг'
 
@@ -116,8 +125,8 @@ class Author(models.Model):
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_death = models.DateField('Died', null=True, blank=True)
 
-    def ger_absolute_url(self):
-        return reverse('author', kwargs={'id': self.id})
+    def get_absolute_url(self):
+        return reverse('catalog:author', kwargs={'pk': self.id})
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
