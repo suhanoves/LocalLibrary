@@ -32,6 +32,10 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('catalog:book', kwargs={'id': self.id})
 
+    class Meta:
+        verbose_name = 'Книга'
+        verbose_name_plural = 'Книги'
+
 
 class BookInstance(models.Model):
     """
@@ -66,6 +70,10 @@ class BookInstance(models.Model):
     def __str__(self):
         return f'{self.id} {self.book.title}'
 
+    class Meta:
+        verbose_name = 'Экземпляр книги'
+        verbose_name_plural = 'Экземпляры книг'
+
 
 class Genre(models.Model):
     """
@@ -94,6 +102,10 @@ class Language(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Язык'
+        verbose_name_plural = 'Языки'
+
 
 class Author(models.Model):
     """
@@ -110,9 +122,17 @@ class Author(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
 
 class Imprint(models.Model):
     name = models.CharField(max_length=250)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Издательство'
+        verbose_name_plural = 'Издательства'
