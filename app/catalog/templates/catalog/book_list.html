@@ -1,0 +1,30 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
+        {% for book in book_list %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-4">
+                                <a href="{{ book.get_absolute_url }}">
+                                    <img src="https://images-na.ssl-images-amazon.com/images/I/51Zxy8c3oVL._SX379_BO1,204,203,200_.jpg"
+                                         class="img-fluid rounded-start" alt="{{ book.title }}">
+                                </a>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-body text-start">
+                                    <a href="{{ book.get_absolute_url }}" class="link-dark text-decoration-none">
+                                        <h5 class="card-title">{{ book.title }}</h5>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>В библиотеку не завезли ещё ни одной книги :(</p>
+        {% endfor %}
+    </div>
+{% endblock content %}

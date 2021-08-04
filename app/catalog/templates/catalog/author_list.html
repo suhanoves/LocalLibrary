@@ -1,0 +1,16 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col">
+            {% if author_list %}
+                <ul>
+                    {% for author in author_list %}
+                        <li><h4><a href="{{ author.get_absolute_url }}">{{ author }}</a></h4></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p> В библиотеке нет книг, поэтому мы не можем составить список их авторов :(</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

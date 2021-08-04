@@ -1,0 +1,24 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>{{ author }}</h1>
+            <p>
+                {% if author.date_of_birth %}
+                    Родился {{ author.date_of_birth }}
+                {% endif %}
+                {% if author.date_of_death %}
+                    Умер {{ author.date_of_death }}
+                {% endif %}
+            </p>
+            <p>
+                Книги автора:
+            <ul>
+                {% for book in author.books.all %}
+                    <li><a href="{{ book.get_absolute_url }}"> {{ book }} </a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock content %}
