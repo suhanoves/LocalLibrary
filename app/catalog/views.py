@@ -34,6 +34,7 @@ class IndexView(TemplateView):
 
 class BooksView(ListView):
     model = models.Book
+    paginate_by = 12
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
