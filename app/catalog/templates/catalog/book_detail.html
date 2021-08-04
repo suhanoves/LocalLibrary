@@ -1,0 +1,75 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            {# Список авторов в строчку #}
+            <h2>
+                {% for author in book.authors.all %}
+                    {# Запятая между именами авторов, если их несколько #}
+                    {% if not forloop.first %}
+                        ,&nbsp;
+                    {% endif %}
+                    <a href="{{ author.get_absolute_url }}">{{ author }}</a>
+                {% endfor %}
+            </h2>
+
+            {# Название книги #}
+            <h1>{{ book.title }}</h1>
+
+            {# ISBN код #}
+            <p> ISBN: {{ book.isbn }}</p>
+
+            {# Жанры книги #}
+            <p>
+                {% for genre in book.genres.all %}
+                    <span class="badge bg-light text-dark">{{ genre }}</span>
+                {% endfor %}
+            </p>
+
+            {# Описание книги #}
+            <p>
+                {{ book.summary }}
+            </p>
+
+            {# Таблица экземпляров книги с группировкой по статусу #}
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Instance</th>
+                    <th>Status</th>
+                    <th>Due to be returned</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for instance in book.instances.all|dictsort:'status' %}
+                    {# Статус книги #}
+                    {% ifchanged %}
+                        <tr>
+                            <td colspan="4"
+                                class="
+                                    {% if instance.status == 'm' %}table-warning{% endif %}
+                                    {% if instance.status == 'o' %}table-danger{% endif %}
+                                    {% if instance.status == 'a' %}table-success{% endif %}
+                                    {% if instance.status == 'r' %}table-secondary{% endif %}
+                                    "
+                            >
+                                {{ instance.get_status_display }}</td>
+                        </tr>
+                    {% endifchanged %}
+                    {# Экземпляры книгg #}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ instance.id }}</td>
+                        <td>{{ instance.get_status_display }}</td>
+                        <td>{{ instance.due_back }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}
+
+

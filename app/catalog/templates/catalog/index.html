@@ -1,0 +1,17 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <p>В нашей библиотеке:</p>
+                <ul>
+                    <li>Представлено авторов: {{ num_authors }}</li>
+                    <li>Представлено книг: {{ num_books }} </li>
+                    <li>Экземпляров книг: {{ num_instances }}</li>
+                    <li>Из них доступно: {{ num_instances_available }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
