@@ -9,7 +9,7 @@ from django.views.generic.base import RedirectView
 from project import settings
 
 urlpatterns = [
-    path('', RedirectView.as_view(pattern_name='catalog:home', permanent=True)),
+    path('', RedirectView.as_view(pattern_name='catalog:index', permanent=True)),
     path('catalog/', include('catalog.urls')),
     path('admin/', admin.site.urls),
 ]
