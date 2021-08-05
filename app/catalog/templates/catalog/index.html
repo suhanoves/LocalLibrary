@@ -13,5 +13,8 @@
                 </ul>
             </div>
         </div>
+        <div>
+            <p>You have visited this page {{ request.session.visits_count }} time{{ request.session.visits_count|pluralize }}.
+        </div>
     </div>
 {% endblock content %}

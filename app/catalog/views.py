@@ -31,6 +31,13 @@ class IndexView(TemplateView):
         context.update(extra_context)
         return context
 
+    def get(self, request, *args, **kwargs):
+        # Add a counter of user visits
+        visits_count = request.session.get('visits_count', 0)
+        request.session['visits_count'] = visits_count + 1
+
+        return super().get(request, *args, **kwargs)
+
 
 class BooksView(ListView):
     model = models.Book
