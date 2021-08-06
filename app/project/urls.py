@@ -19,3 +19,6 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Serving files uploaded by a user during development
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Add Django authentication views
+urlpatterns += [path('accounts/', include('django.contrib.auth.urls'))]
