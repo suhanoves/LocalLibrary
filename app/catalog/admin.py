@@ -1,5 +1,3 @@
-from django.contrib import admin
-
 from catalog.models import *
 
 
@@ -24,18 +22,21 @@ class BookInstanceAdmin(admin.ModelAdmin):
             'fields': ('id', 'book')
         }),
         ('Availability', {
-            'fields': ('status', 'due_back')
+            'fields': ('borrower', 'status', 'due_back')
         }),
     )
     readonly_fields = ['id']
 
-
     # List display
-    list_display = ['id', 'book', 'status', 'due_back']
+    list_display = ['id', 'book', 'borrower', 'status', 'due_back', 'is_overdue']
     list_display_links = ['book']
-    list_editable = ['status', 'due_back']
+    list_editable = ['status', 'due_back', 'borrower']
     list_filter = ['status']
     search_fields = ['book__title']
+
+    @admin.display(boolean=True)
+    def is_overdue(self, instance):
+        return instance.is_overdue
 
 
 @admin.register(Genre)
