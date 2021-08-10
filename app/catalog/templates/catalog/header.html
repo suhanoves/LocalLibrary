@@ -28,10 +28,10 @@
                     {% if user.is_authenticated %}
                         {# Если пользователь залогинен #}
                         <li class="nav-item dropdown">
-                            <p class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false"> {{ user.get_full_name }} </p>
+                            <span class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false"> {{ user.get_full_name }} </span>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'catalog:my-borrowed' %}">My books</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -39,7 +39,6 @@
                                     out</a></li>
                             </ul>
                         </li>
-
 
                     {% else %}
                         {# Если пользователь аноним #}
@@ -51,5 +50,7 @@
 
             </div>
         </div>
+
     </nav>
+
 </header>
