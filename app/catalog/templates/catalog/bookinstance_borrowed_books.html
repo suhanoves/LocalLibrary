@@ -1,0 +1,34 @@
+{% extends 'catalog/base.html' %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>Borrowed books</h1>
+            {% if bookinstance_list %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Instance</th>
+                        <th>Borrower</th>
+                        <th>Due back</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for instance in bookinstance_list %}
+                        <tr class="{% if instance.is_overdue %}table-danger{% endif %}">
+                            <td>{{ instance.book }}</td>
+                            <td>{{ instance.id }}</td>
+                            <td>{{ instance.borrower.get_full_name }}</td>
+                            <td>{{ instance.due_back }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>На данный момент нет ни одной арендованной книги. Работайте лучше :)</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
