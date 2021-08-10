@@ -91,6 +91,9 @@ class BookInstance(models.Model):
         ordering = ['due_back']
         verbose_name = 'Экземпляр книги'
         verbose_name_plural = 'Экземпляры книг'
+        permissions = (
+            ("can_mark_returned", "Set book as returned"),
+        )
 
 
 class Genre(models.Model):
