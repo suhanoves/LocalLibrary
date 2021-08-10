@@ -1,4 +1,4 @@
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -74,3 +74,12 @@ class AuthorView(DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object
         return context
+
+
+class LoanedBooksByUserListView(LoginRequiredMixin, ListView):
+    model = models.BookInstance
+    template_name = 'catalog/bookinstance_list_borrowed_user.html'
+    paginate_by = 50
+
+    def get_queryset(self):
+        return models.BookInstance.objects.filter(borrower=self.request.user).filter(status='o').order_by('due_back')
