@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from catalog import models
 
@@ -83,3 +84,12 @@ class LoanedBooksByUserListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return models.BookInstance.objects.filter(borrower=self.request.user).filter(status='o').order_by('due_back')
+
+
+class BorrowedBooks(PermissionRequiredMixin, ListView):
+    model = models.BookInstance
+    permission_required = 'catalog.can_mark_returned'
+    template_name = 'catalog/bookinstance_borrowed_books.html'
+
+    def get_queryset(self):
+        return models.BookInstance.objects.filter(status='o').order_by('due_back')

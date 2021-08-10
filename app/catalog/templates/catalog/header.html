@@ -1,3 +1,5 @@
+{% load auth_extras %}
+
 <header>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
         <div class="container">
@@ -22,6 +24,15 @@
                         <a class="nav-link" aria-current="page" href="{% url 'catalog:books' %}">Книги</a>
                     </li>
                 </ul>
+
+                {# Меню персонала #}
+                {% if user|has_group:'Librarians' %}
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a href="{% url 'catalog:borrowed_books' %}" class="nav-link">Арендованные книги</a>
+                    </li>
+                </ul>
+                {% endif %}
 
                 {# Меню пользователя #}
                 <ul class="navbar-nav">
