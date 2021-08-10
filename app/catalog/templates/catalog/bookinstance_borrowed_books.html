@@ -8,11 +8,11 @@
             {% if bookinstance_list %}
                 <table class="table">
                     <thead>
-                    <tr>
+                    <tr class="text-center">
                         <th>Book</th>
                         <th>Instance</th>
                         <th>Borrower</th>
-                        <th>Due back</th>
+                        <th colspan="2">Due back</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -22,6 +22,7 @@
                             <td>{{ instance.id }}</td>
                             <td>{{ instance.borrower.get_full_name }}</td>
                             <td>{{ instance.due_back }}</td>
+                            <td><a class="font-monospace" href="{% url 'catalog:renew-book-librarian' instance.id %}"> Renew</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
