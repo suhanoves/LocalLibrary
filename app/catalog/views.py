@@ -11,7 +11,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from catalog import models
-from .forms import RenewBookForm
+from .forms import RenewBookModelForm
 from .models import BookInstance
 
 
@@ -102,18 +102,19 @@ class BorrowedBooks(PermissionRequiredMixin, ListView):
     def get_queryset(self):
         return models.BookInstance.objects.filter(status='o').order_by('due_back')
 
+
 @permission_required('catalog.can_mark_returned')
 def renew_book_librarian(request, pk):
     book_instance = get_object_or_404(BookInstance, pk=pk)
     if request.method == 'POST':
-        form = RenewBookForm(request.POST)
+        form = RenewBookModelForm(request.POST)
         if form.is_valid():
-            book_instance.due_back = form.cleaned_data['renewal_date']
+            book_instance.due_back = form.cleaned_data['due_back']
             book_instance.save()
 
             return HttpResponseRedirect(reverse('catalog:borrowed_books'))
     else:
-        proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=2)
-        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date, })
+        proposed_due_back = datetime.date.today() + datetime.timedelta(weeks=2)
+        form = RenewBookModelForm(initial={'due_back': proposed_due_back, })
 
     return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'instance': book_instance})
