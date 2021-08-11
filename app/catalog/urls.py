@@ -11,5 +11,6 @@ urlpatterns = [
     path('book/<int:pk>', BookView.as_view(), name='book'),
     path('author/<int:pk>', AuthorView.as_view(), name='author'),
     path('mybooks/', LoanedBooksByUserListView.as_view(), name='my-borrowed'),
-    path('borrowed/', BorrowedBooks.as_view(), name='borrowed_books' )
+    path('borrowed/', BorrowedBooks.as_view(), name='borrowed_books'),
+    path('book/<uuid:pk>/renew/', renew_book_librarian, name='renew-book-librarian')
 ]
