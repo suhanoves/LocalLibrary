@@ -1,10 +1,10 @@
 import uuid
+from datetime import date
 
-from django.contrib import admin
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
-from datetime import date
+
 
 class Book(models.Model):
     """
@@ -82,7 +82,6 @@ class BookInstance(models.Model):
     def __str__(self):
         return f'{self.id} {self.book.title}'
 
-
     @property
     def is_overdue(self):
         return self.due_back and date.today() > self.due_back
@@ -146,6 +145,9 @@ class Author(models.Model):
     class Meta:
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
+        permissions = (
+            ('can_author_edit', 'Create, update and delete Author'),
+        )
 
 
 class Imprint(models.Model):
