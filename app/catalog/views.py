@@ -5,7 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -118,3 +119,22 @@ def renew_book_librarian(request, pk):
         form = RenewBookModelForm(initial={'due_back': proposed_due_back, })
 
     return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'instance': book_instance})
+
+
+class AuthorCreate(PermissionRequiredMixin, CreateView):
+    permission_required = 'catalog.can_author_edit'
+    model = models.Author
+    fields = '__all__'
+    initial = {'date_of_death': '12/10/2016', }
+
+
+class AuthorUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = 'catalog.can_author_edit'
+    model = models.Author
+    fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+
+
+class AuthorDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = 'catalog.can_author_edit'
+    model = models.Author
+    success_url = reverse_lazy('authors')
